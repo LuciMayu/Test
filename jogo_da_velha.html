@@ -1,0 +1,88 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    var cor = 'red';
+    var status = 0;
+    var x = 1;
+
+    pincel.fillStyle = 'white';
+    pincel.fillRect(0, 0, 600, 400);
+
+    pincel.strokeStyle='black';
+    pincel.strokeRect(0, 0, 300, 300);
+    pincel.strokeRect(100, 0, 100, 300);
+    pincel.strokeRect(0, 100, 300, 100);
+
+    pincel.fillStyle = cor;
+
+    function repetirCirculo(evento){
+        if(status == 1){
+            var x = evento.pageX - tela.offsetLeft;
+            var y = evento.pageY - tela.offsetTop;
+            pincel.beginPath();
+            pincel.arc(x, y, 10, 0, 2 * 3.14);
+            pincel.fill();
+        }     
+    }
+    function desenhaCirculo(evento) {
+            var x = evento.pageX - tela.offsetLeft;
+            var y = evento.pageY - tela.offsetTop;
+            pincel.beginPath();
+            pincel.arc(x, y, 10, 0, 2 * 3.14);
+            pincel.fill();
+
+        if (tela.onclick && (status == 1)){
+            status = 0;
+        }else if (tela.onclick && (status == 0)){
+            status = 1;
+        }
+        console.log(status);
+        tela.onmousemove = repetirCirculo;
+    }
+
+    function mudaCor() {
+            if (x==1){
+                pincel.fillStyle = 'blue'; //green
+                x++;
+            }else if(x==2){
+                pincel.fillStyle = 'red'; //blue
+                x=1;
+            }else if(x==3){
+                pincel.fillStyle = 'red'; 
+                x = 1;
+            }
+    }
+
+
+    function limpaTela(){
+        pincel.fillStyle = "white";
+        pincel.fillRect(0, 0, 600, 400);
+        pincel.strokeStyle='black';
+        pincel.strokeRect(0, 0, 300, 300);
+        pincel.strokeRect(100, 0, 100, 300);
+        pincel.strokeRect(0, 100, 300, 100);
+
+        x=2;
+        mudaCor();
+    }
+
+    function botao(evento){
+        var m = evento.code;
+        
+        if(m == 'KeyC'){
+            pincel.fillStyle = 'white';
+            x=2;
+        }
+    } 
+
+    onkeydown = botao;
+    tela.oncontextmenu = mudaCor;
+    tela.onclick = desenhaCirculo;
+    tela.ondblclick = limpaTela;
+
+
+
+
+</script>
